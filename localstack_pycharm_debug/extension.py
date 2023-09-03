@@ -13,13 +13,20 @@ class PycharmDebugExtension(Extension):
         LOG.setLevel(level=logging.INFO)
 
         import pydevd_pycharm
-        from localstack.config import DOCKER_HOST_FROM_CONTAINER
+
+        try:
+            # localstack <2.3 compat
+            from localstack.config import DOCKER_HOST_FROM_CONTAINER
+            host = DOCKER_HOST_FROM_CONTAINER
+        except ImportError:
+            from localstack.utils.net import get_docker_host_from_container
+            host = get_docker_host_from_container()
 
         port = int(os.getenv("PYDEVD_PYCHARM_PORT", "12345"))
 
-        LOG.info("pydevd_pycharm.settrace('%s', %s)", DOCKER_HOST_FROM_CONTAINER, port)
+        LOG.info("pydevd_pycharm.settrace('%s', %s)", host, port)
         pydevd_pycharm.settrace(
-            DOCKER_HOST_FROM_CONTAINER,
+            host,
             port=port,
             stdoutToServer=True,
             stderrToServer=True,
