@@ -19,7 +19,7 @@ Steps explained in this guide:
 Install directly from this repository
 
 ```console
-localstack extensions install git+https://github.com/thrau/localstack-extension-pycharm-debug/#egg=localstack-extension-pycharm-debug
+localstack extensions install "git+https://github.com/thrau/localstack-extension-pycharm-debug/#egg=localstack-extension-pycharm-debug"
 ```
 
 ### Python Debug Server
